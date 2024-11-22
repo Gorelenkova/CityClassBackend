@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -28,7 +29,7 @@ public class AuthController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
         Optional<User> user = userServiceSecurity.findByMail(email);
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {

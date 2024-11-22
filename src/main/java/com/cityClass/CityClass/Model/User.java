@@ -19,12 +19,12 @@ public class User {
     @NotEmpty
     private String user_name;
     @NotEmpty
-    @Email
+    //@Email
     private String mail;
     @NotEmpty
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    //@Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
     @NotEmpty
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
+    //@Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     private String phone;
 }
