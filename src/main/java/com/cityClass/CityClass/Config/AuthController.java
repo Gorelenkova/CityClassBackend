@@ -23,14 +23,18 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody User user) {
+    public ResponseEntity<Map<String, Object>> register(@Valid @RequestBody User user) {
         Optional<User> existingUser = userServiceSecurity.findByMail(user.getMail());
         if (existingUser.isPresent()) {
-            return ResponseEntity.badRequest().body("Email already in use");
+            return ResponseEntity.badRequest().body(Map.of("message", "Email already in use"));
         }
         userServiceSecurity.registerUser(user);
-        return ResponseEntity.ok("User registered successfully");
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User registered successfully");
+        response.put("userId", user.getId());  // assuming you have a method to get the user ID
+        return ResponseEntity.ok(response);
     }
+
     @GetMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestParam String email, @RequestParam String password) {
         Optional<User> user = userServiceSecurity.findByMail(email);
