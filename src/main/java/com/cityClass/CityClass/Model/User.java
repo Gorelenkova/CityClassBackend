@@ -20,7 +20,11 @@ public class User {
     private String user_name;
     @NotEmpty
     //@Email
+
     private String mail;
+    public String getMail() {
+        return mail;
+    }
     @NotEmpty
     //@Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;

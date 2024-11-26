@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,6 +23,6 @@ public class Product {
     private String description;
     @NotNull
     private BigDecimal price;
-    private Integer size;
+    private List<Integer> sizes;
     private String image_url;
 }

@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+
 
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
@@ -28,14 +31,25 @@ public class AuthController {
         userServiceSecurity.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
     }
-
     @GetMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> login(@RequestParam String email, @RequestParam String password) {
         Optional<User> user = userServiceSecurity.findByMail(email);
+
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-            return ResponseEntity.ok("Login successful");
+            // Формируем ответ с userId
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("userId", user.get().getId()); // Возвращаем userId
+
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.badRequest().body("Invalid email or password");
+
+        // Формируем ответ для ошибки
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("message", "Invalid email or password");
+
+        return ResponseEntity.badRequest().body(errorResponse);
     }
+
 
 }
