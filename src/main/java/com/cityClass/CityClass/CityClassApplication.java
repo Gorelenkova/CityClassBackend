@@ -14,8 +14,9 @@ public class 	CityClassApplication {
 	//TODO: SpringSecurity
 	//TODO: REST API
 	// functional: cart+html
-	//
+	// TODO: connect data in front with data in db
 	//TODO: connection with front
+
 	//TODO: testing
 
 }
