@@ -10,7 +10,10 @@ import com.cityClass.CityClass.Repo.CartRepository;
 import com.cityClass.CityClass.Repo.ProductRepository;
 import com.cityClass.CityClass.Repo.UserRepository;
 import org.springframework.expression.ExpressionException;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CartService {
@@ -59,6 +62,28 @@ public class CartService {
         }
 
         // Сохранить обновленную корзину
+        cartRepository.save(cart);
+    }
+
+    public void dalateProduct(Integer productId, Integer userId) {
+        // Получаем корзину без использования Optional
+        Cart cart = cartRepository.findCartByUserId(userId);
+        if (cart == null) {
+            throw new IllegalArgumentException("Корзина пользователя с ID " + userId + " не найдена.");
+        }
+
+        // Найти продукт в корзине по productId
+        Cart_Item cartItem = cart.getItems().stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElse(null);
+
+        if (cartItem == null) {
+            throw new IllegalArgumentException("Продукт с ID " + productId + " не найден в корзине пользователя.");
+        }
+
+        // Удалить продукт из корзины
+        cart.getItems().remove(cartItem);
         cartRepository.save(cart);
     }
 
